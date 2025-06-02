@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import PokemonCardDetails from '../components/pokemon-card-details';
 import { getPokemon } from '../services/pokemon-service';
 

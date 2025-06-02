@@ -32,3 +32,15 @@ export const Primary = {
     ]
   },
 };
+
+export const WithRenderItem = {
+  args: {
+    value: 'Item 2',
+    items: [
+      { id: 1, label: 'Item 1' },
+      { id: 2, label: 'Item 2' },
+      { id: 3, label: 'Item 3' },
+    ],
+    renderItem: (item) => <b>{item.label}</b>,
+  },
+};

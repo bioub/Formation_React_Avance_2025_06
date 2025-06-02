@@ -33,3 +33,43 @@ exemple `src/app/components/pokemon-card.jsx`)
 Dans le composant `src/app/components/pokemon-card.jsx` déplacer le `onClick` sur un bouton "Details" dans la carte (on
 se servira du click de la carte pour séléctionner les éléments à comparer), sur le click il faudra appeler
 la `event.stopPropagation()` (pour ne pas déclencher le click des ancetres).
+
+## Fragments + Render Props
+
+Créer un nouveau composant List dans `src/app/components/list.jsx` en partant du code suivant :
+
+```
+function List({ items, renderItem }) {
+
+}
+
+export default List;
+```
+
+Dans ce composant List nous allons boucler sur les items et afficher dans le JSX le retour de la fonction `renderItem`, ce JSX sera encapsulé dans un Fragment.
+
+Utiliser ce composant List à la place de `pokemons.map` dans le composant `src/app/pages/pokemon-list.jsx` (on verra demain l'intérêt d'avoir un composant ici)
+
+Idem pour le `.map` à la ligne 302 de `src/app/components/pokemon-form.jsx`
+
+## Custom Hook
+
+Dans `src/app/pages/pokemon-compare.jsx` remplacer les lignes suivantes :
+
+```js
+const [pokemon1, setPokemon1] = useState(null);
+const [pokemon2, setPokemon2] = useState(null);
+
+useEffect(() => {
+  getPokemon(3).then((pokemon) => setPokemon1(pokemon));
+  getPokemon(4).then((pokemon) => setPokemon2(pokemon));
+}, []);
+```
+
+Par un appel à un custom hook `useSelectedPokemons` que vous appelerez de cette façon :
+
+```js
+const [pokemon1, pokemon2] = useSelectedPokemons();
+```
+
+Donc créer la fonction `useSelectedPokemons` pour que ce code fonctionne.

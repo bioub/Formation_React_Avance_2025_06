@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './select.css';
 
 /** Select Component
@@ -11,21 +11,36 @@ import './select.css';
  */
 function Select(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const hostRef = useRef(null);
+
+  useEffect(() => {
+    window.addEventListener('click', (event) => {
+      // Close the menu if the click is outside the select component
+      if (hostRef.current && !hostRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    });
+  }, []);
 
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
 
+  function handleMenuItemClick(item) {
+    props.onSelected(item);
+    setIsMenuOpen(false);
+  }
+
   return (
-    <div className="select">
+    <div className="select" ref={hostRef}>
       <div className="selected" onClick={toggleMenu}>
         {props.value}
       </div>
       {isMenuOpen && (
         <div className="menu">
           {props.items.map((item, index) => (
-            <div key={index} className="item" onClick={() => props.onSelected(item)}>
-              {item}
+            <div key={index} className="item" onClick={() => handleMenuItemClick(item)}>
+              {props.renderItem ? props.renderItem(item) : item}
             </div>
           ))}
         </div>
