@@ -73,3 +73,14 @@ const [pokemon1, pokemon2] = useSelectedPokemons();
 ```
 
 Donc créer la fonction `useSelectedPokemons` pour que ce code fonctionne.
+
+## Context
+
+Créer un context `CompareContext` en s'inspirant de l'exemple :
+[https://github.com/formation-tech/react-communication/tree/master/src/example-context-with-hooks](https://github.com/formation-tech/react-communication/tree/master/src/example-context-with-hooks)
+
+L'idée est de stocker les id des pokemons à comparer dans le context (en utilisant par exemple un tableau), il faudra limiter à 2 pokemons (vous pouvez augmenter la limite si vous le souhaitez mais il faudra jouer sur le nombre de colonnes dans la page `PokemonCompare`).
+
+Dans `src/app/components/pokemon-card.tsx` écouter le click de la checkbox pour sélectionner ou déselectionner le Pokemon à comparer. Le lien vers la page `/pokemons/compare` ne devrait être actif que s'il y a 2 pokemons à comparer.
+
+Dans le custom hook `useSelectedPokemons` utiliser le context plutot que les valeurs 3 et 4.
