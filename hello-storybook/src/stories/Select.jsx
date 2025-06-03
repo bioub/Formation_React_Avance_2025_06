@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import './select.css';
 
+// React.createElement(Select, { value: 'Select an item', items: ['Item 1', 'Item 2', 'Item 3'], onSelected: (item) => console.log(item) });
+
 /** Select Component
  * A simple select component that allows users to choose an item from a dropdown menu.
  * 
