@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import PokemonCard from '../components/pokemon-card';
 import { getPokemons } from '../services/pokemon-service';
 import { Link, Navigate } from 'react-router-dom';
 import PokemonSearch from '../components/pokemon-search';
 import { isAuthenticated } from '../services/authentication-service';
 import List from '../components/list';
+import { CompareContext } from '../helpers/compare-context';
 
 function PokemonList() {
+  const { selectedPokemonIds } = useContext(CompareContext);
+
   const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {
@@ -23,9 +26,12 @@ function PokemonList() {
       <div className="container">
         <div className="row">
           <PokemonSearch />
-          <List items={pokemons} renderItem={(pokemon) => (
-            <PokemonCard key={pokemon.id} pokemon={pokemon} />
-          )} />
+          <List
+            items={pokemons}
+            renderItem={(pokemon) => (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            )}
+          />
           {/* {pokemons.map((pokemon) => (
             <PokemonCard key={pokemon.id} pokemon={pokemon} />
           ))} */}
@@ -38,13 +44,15 @@ function PokemonList() {
       >
         <i className="material-icons">add</i>
       </Link>
-      <Link
-        className="btn-floating btn-large waves-effect waves-light blue z-depth-3"
-        style={{ position: 'fixed', bottom: '25px', right: '100px' }}
-        to="/pokemon/compare"
-      >
-        <i className="material-icons">compare</i>
-      </Link>
+      {selectedPokemonIds.length === 2 && (
+        <Link
+          className="btn-floating btn-large waves-effect waves-light blue z-depth-3"
+          style={{ position: 'fixed', bottom: '25px', right: '100px' }}
+          to="/pokemon/compare"
+        >
+          <i className="material-icons">compare</i>
+        </Link>
+      )}
     </div>
   );
 }
