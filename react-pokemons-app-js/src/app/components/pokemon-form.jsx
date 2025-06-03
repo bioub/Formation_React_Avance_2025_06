@@ -7,6 +7,7 @@ import {
   updatePokemon,
 } from '../services/pokemon-service';
 import List from './list';
+import Select from './Select';
 
 function PokemonForm({ pokemon, isEditForm }) {
   const navigate = useNavigate();
@@ -264,14 +265,15 @@ function PokemonForm({ pokemon, isEditForm }) {
                 {/* Pokemon hp */}
                 <div className="form-group">
                   <label htmlFor="hp">Point de vie</label>
-                  <input
+                  {/* <input
                     id="hp"
                     type="number"
                     name="hp"
                     className="form-control"
                     value={form.hp.value}
                     onChange={(e) => handleInputChange(e)}
-                  ></input>
+                  ></input> */}
+                  <Select value={form.hp.value} items={[0, 1, 2, 3, 4, 5]} />
                   {/* error */}
                   {form.hp.error && (
                     <div className="card-panel red accent-1">

@@ -8,6 +8,12 @@ function PokemonCard({ pokemon }) {
   const { selectedPokemonIds, togglePokemonSelection } = useContext(CompareContext);
   const navigate = useNavigate();
 
+  // This will block the thread during 500ms
+  // const begin = new Date().getTime();
+  // while (new Date().getTime() - begin < 200) {
+  //   // Simulating a blocking operation
+  // }
+
   function goToPokemon(id) {
     navigate(`/pokemons/${id}`);
   }

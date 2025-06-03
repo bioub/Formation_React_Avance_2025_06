@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import PokemonCard from '../components/pokemon-card';
 import { getPokemons } from '../services/pokemon-service';
 import { Link, Navigate } from 'react-router-dom';
@@ -6,8 +6,10 @@ import PokemonSearch from '../components/pokemon-search';
 import { isAuthenticated } from '../services/authentication-service';
 import List from '../components/list';
 import { CompareContext } from '../helpers/compare-context';
+// import { utils, writeFile } from "xlsx";
 
 function PokemonList() {
+  const [term, setTerm] = useState('');
   const { selectedPokemonIds } = useContext(CompareContext);
 
   const [pokemons, setPokemons] = useState([]);
@@ -15,6 +17,17 @@ function PokemonList() {
   useEffect(() => {
     getPokemons().then((pokemons) => setPokemons(pokemons));
   }, []);
+
+  // const renderItem = useMemo(() => {
+  //   return (pokemon) => <PokemonCard key={pokemon.id} pokemon={pokemon} />;
+  // }, []);
+
+  // Version with useCallback
+  const renderItem = useCallback((pokemon) => <PokemonCard key={pokemon.id} pokemon={pokemon} />, []);
+
+  const filteredPokemons = useMemo(() => {
+    return pokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(term.toLowerCase()));
+  }, [pokemons, term]);
 
   if (!isAuthenticated) {
     return <Navigate to={{ pathname: '/login' }} />;
@@ -25,16 +38,22 @@ function PokemonList() {
       <h1 className="center">Pokédex</h1>
       <div className="container">
         <div className="row">
-          <PokemonSearch />
+          <PokemonSearch term={term} onTermChange={setTerm} />
           <List
-            items={pokemons}
-            renderItem={(pokemon) => (
-              <PokemonCard key={pokemon.id} pokemon={pokemon} />
-            )}
+            items={filteredPokemons}
+            renderItem={renderItem}
           />
           {/* {pokemons.map((pokemon) => (
             <PokemonCard key={pokemon.id} pokemon={pokemon} />
           ))} */}
+          <button onClick={() => {
+            import('xlsx').then(({ utils, writeFile }) => {
+              const worksheet = utils.json_to_sheet(filteredPokemons);
+              const workbook = utils.book_new();
+              utils.book_append_sheet(workbook, worksheet, 'Pokemons');
+              writeFile(workbook, 'pokemons.xlsx');
+            });
+          }}>Export Excel</button>
         </div>
       </div>
       <Link
