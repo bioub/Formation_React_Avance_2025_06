@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 function Exercise4() {
   const [value, setValue] = useState('');
@@ -9,6 +9,9 @@ function Exercise4() {
     setTodos([{ text: value, id: Math.random() }, ...todos]);
   }
 
+  // const handleDelete = useCallback(function handleDelete(todo) {
+  //   setTodos(todos.filter((t) => t.id !== todo.id));
+  // }, [todos]);
   function handleDelete(todo) {
     setTodos(todos.filter((t) => t.id !== todo.id));
   }
@@ -53,7 +56,7 @@ function Exercise4() {
   );
 }
 
-function TodosList(props) {
+const TodosList = memo(function TodosList(props) {
   console.log('render TodosList');
   return (
     <div className="TodosList">
@@ -65,6 +68,10 @@ function TodosList(props) {
       ))}
     </div>
   );
-}
+}, (prevProps, nextProps) => {
+  // We can use a custom comparison function to avoid re-rendering
+  // if the todos array is the same reference
+  return prevProps.todos === nextProps.todos;
+});
 
 export default Exercise4;

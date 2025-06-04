@@ -7,14 +7,20 @@ function Exercise2() {
   const boxRef = useRef();
 
   useEffect(() => {
-    document.addEventListener('click', (event) => {
+    const callback = (event) => {
       if (boxRef.current.contains(event.target)) {
-        setCountClickInside(countClickInside + 1);
+        setCountClickInside((prevCount) => prevCount + 1);
       } else {
-        setCountClickOutside(countClickOutside + 1);
+        setCountClickOutside((prevCount) => prevCount + 1);
       }
-    });
-  }, [countClickInside, countClickOutside]);
+    };
+    console.log('document.addEventListener');
+    document.addEventListener('click', callback);
+    return () => {
+    console.log('document.removeEventListener');
+      document.removeEventListener('click', callback);
+    }
+  }, []);
 
   return (
     <div className="Exercise2">
