@@ -17,7 +17,7 @@ function Select(props) {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      console.log('window click', event.target);
+      // console.log('window click', event.target);
 
       // Close the menu if the click is outside the select component
       if (hostRef.current && !hostRef.current.contains(event.target)) {

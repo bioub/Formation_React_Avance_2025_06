@@ -17,5 +17,5 @@ export function formatType(type) {
 }
 
 export function formatDate(date = new Date()) {
-  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
 }
