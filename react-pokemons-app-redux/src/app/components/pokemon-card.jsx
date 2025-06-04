@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import './pokemon-card.css';
 import { formatDate, formatType } from '../helpers';
-import { useContext } from 'react';
-import { CompareContext } from '../helpers/compare-context';
+import { togglePokemonSelection } from '../store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectedPokemonIdsSelector } from '../store/selectors';
 
 function PokemonCard({ pokemon }) {
-  const { selectedPokemonIds, togglePokemonSelection } = useContext(CompareContext);
   const navigate = useNavigate();
+
+  const selectedPokemonIds = useSelector(selectedPokemonIdsSelector);
+  const dispatch = useDispatch();
 
   // This will block the thread during 500ms
   // const begin = new Date().getTime();
@@ -37,7 +40,7 @@ function PokemonCard({ pokemon }) {
             ))}
             <button onClick={() => goToPokemon(pokemon.id ?? 0)}>Details</button>
             <label>
-              <input type="checkbox" checked={selectedPokemonIds.includes(pokemon.id)} onChange={() => togglePokemonSelection(pokemon.id)} />
+              <input type="checkbox" checked={selectedPokemonIds.includes(pokemon.id)} onChange={() => dispatch(togglePokemonSelection(pokemon.id))} />
               <span>Comparer</span>
             </label>
           </div>

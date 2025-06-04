@@ -1,13 +1,12 @@
-import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
+import { useEffect, useCallback } from 'react';
 import PokemonCard from '../components/pokemon-card';
 import { getPokemons } from '../services/pokemon-service';
 import { Link, Navigate } from 'react-router-dom';
 import PokemonSearch from '../components/pokemon-search';
 import { isAuthenticated } from '../services/authentication-service';
 import List from '../components/list';
-import { CompareContext } from '../helpers/compare-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { filteredPokemonsSelector, pokemonsLoadingSelector, searchTermSelector } from '../store/selectors';
+import { filteredPokemonsSelector, pokemonsLoadingSelector, searchTermSelector, selectedPokemonIdsSelector } from '../store/selectors';
 import { fetchPokemons, fetchPokemonsError, fetchPokemonsSuccess, updateSearchTerm } from '../store/actions';
 import Loader from '../components/loader';
 
@@ -16,7 +15,7 @@ function PokemonList() {
   const loading = useSelector(pokemonsLoadingSelector);
   const term = useSelector(searchTermSelector);
   const filteredPokemons = useSelector(filteredPokemonsSelector);
-  const { selectedPokemonIds } = useContext(CompareContext);
+  const selectedPokemonIds = useSelector(selectedPokemonIdsSelector)
 
   useEffect(() => {
     dispatch(fetchPokemons());

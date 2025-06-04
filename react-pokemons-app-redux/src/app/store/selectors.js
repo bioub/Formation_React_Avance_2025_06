@@ -14,3 +14,7 @@ export function filteredPokemonsSelector(state) {
     pokemon.name.toLowerCase().includes(searchTerm)
   );
 }
+
+export function selectedPokemonIdsSelector(state) {
+  return state.pokemons.selectedPokemonIds;
+}

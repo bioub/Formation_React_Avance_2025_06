@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getPokemon } from '../services/pokemon-service';
-import { CompareContext } from './compare-context';
+import { selectedPokemonIdsSelector } from '../store/selectors';
+import { useSelector } from 'react-redux';
 
 // export function useSelectedPokemons() {
 //   const { selectedPokemonIds } = useContext(CompareContext);
@@ -36,8 +37,7 @@ import { CompareContext } from './compare-context';
 // }
 
 export function useSelectedPokemons() {
-  const { selectedPokemonIds } = useContext(CompareContext);
-
+  const selectedPokemonIds = useSelector(selectedPokemonIdsSelector)
   const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {

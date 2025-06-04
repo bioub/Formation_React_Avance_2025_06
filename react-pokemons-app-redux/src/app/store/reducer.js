@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { fetchPokemons, fetchPokemonsError, fetchPokemonsSuccess, updateSearchTerm } from './actions';
+import { fetchPokemons, fetchPokemonsError, fetchPokemonsSuccess, togglePokemonSelection, updateSearchTerm } from './actions';
 
 const initialState = {
   pokemons: {
@@ -27,5 +27,14 @@ export const pokemonsReducer = createReducer(initialState.pokemons, (builder) =>
     .addCase(fetchPokemonsError, (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    })
+    .addCase(togglePokemonSelection, (state, action) => {
+      const id = action.payload;
+      const selectedPokemonIds = state.selectedPokemonIds;
+      if (selectedPokemonIds.includes(id)) {
+        state.selectedPokemonIds = selectedPokemonIds.filter((pokemonId) => pokemonId !== id);
+      } else if (selectedPokemonIds.length < 2) {
+        state.selectedPokemonIds.push(id);
+      }
     });
 });
